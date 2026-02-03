@@ -128,7 +128,7 @@ class FraudFeaturizer:
 
     def __init__(self):
         self.artifacts: Optional[PreprocessArtifacts] = None
-
+        
     def fit(self, train_df: pd.DataFrame) -> "FraudFeaturizer":
         Xtr = train_df.copy()
 
@@ -163,11 +163,25 @@ class FraudFeaturizer:
 
         agg_tables = fit_agg_tables(Xtr, group_cols_list, target_col="TransactionAmt")
 
-        # Determine columns that become all-NaN/constant AFTER transform; store drop list
-        Xt = self.transform(train_df, _skip_drop=False)  # uses temporary artifacts not set yet
+        # ✅ IMPORTANT: set artifacts FIRST (temporary dropped_cols)
+        self.artifacts = PreprocessArtifacts(
+            cat_cols=cat_cols,
+            fe_cols=fe_cols,
+            group_cols_list=group_cols_list,
+            factor_maps=factor_maps,
+            fe_maps=fe_maps,
+            agg_tables=agg_tables,
+            dropped_cols=[],
+        )
+
+        # Now we can transform safely
+        Xt = self.transform(train_df, _skip_drop=True)
+
+        # Compute columns to drop based on TRAIN after transforms
         Xt_num = make_numeric_matrix(Xt, drop_cols=["isFraud", "TransactionID", "UID"])
         Xt_num, dropped_cols = drop_allnan_and_constant_cols(Xt_num)
 
+        # Update artifacts with dropped cols
         self.artifacts = PreprocessArtifacts(
             cat_cols=cat_cols,
             fe_cols=fe_cols,
@@ -177,6 +191,7 @@ class FraudFeaturizer:
             agg_tables=agg_tables,
             dropped_cols=dropped_cols,
         )
+
         return self
 
     def transform(self, df: pd.DataFrame, _skip_drop: bool = False) -> pd.DataFrame:
@@ -198,14 +213,14 @@ class FraudFeaturizer:
         # FE
         X = add_frequency_encoded(X, self.artifacts.fe_maps, suffix="_FE")
 
-        # Factorize categoricals
-        X = transform_with_maps(X, self.artifacts.factor_maps)
-
         # Agg features
         X = add_agg_features(X, self.artifacts.agg_tables, self.artifacts.group_cols_list, target_col="TransactionAmt")
 
         if not _skip_drop:
             # Drop cols that were identified as all-NaN/constant in training
             X = X.drop(columns=self.artifacts.dropped_cols, errors="ignore")
+        # Factorize categoricals
+        X = transform_with_maps(X, self.artifacts.factor_maps)
+
 
         return X
