@@ -163,7 +163,7 @@ class FraudFeaturizer:
 
         agg_tables = fit_agg_tables(Xtr, group_cols_list, target_col="TransactionAmt")
 
-        # ✅ IMPORTANT: set artifacts FIRST (temporary dropped_cols)
+        # IMPORTANT: set artifacts FIRST (temporary dropped_cols)
         self.artifacts = PreprocessArtifacts(
             cat_cols=cat_cols,
             fe_cols=fe_cols,
