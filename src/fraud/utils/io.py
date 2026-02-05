@@ -1,7 +1,14 @@
 import joblib
+from pathlib import Path
+from typing import Union, Any
 
-def save_joblib(obj, path: str) -> None:
-    joblib.dump(obj, path)
+PathLike = Union[str, Path]
 
-def load_joblib(path: str):
-    return joblib.load(path)
+def save_joblib(obj: Any, path: PathLike) -> None:
+    joblib.dump(obj, str(path))
+
+def load_joblib(path: PathLike) -> Any:
+    return joblib.load(str(path))
+
+
+

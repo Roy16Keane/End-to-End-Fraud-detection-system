@@ -53,43 +53,46 @@ def transform_with_maps(df: pd.DataFrame, factor_maps: Dict[str, Dict[Any, int]]
         vals = out[c].astype("object").fillna("__NA__")
         out[c] = vals.map(mp).fillna(-1).astype("int32")
     return out
-
-
-def fit_agg_tables(
-    train_df: pd.DataFrame,
-    group_cols_list: List[List[str]],
-    target_col: str = "TransactionAmt",
-) -> Dict[str, pd.DataFrame]:
+def fit_agg_tables(train_df, group_cols_list, target_col="TransactionAmt"):
     """
     Creates aggregation tables (mean,std) for each group spec.
     Returns dict key = "colA|colB".
     """
-    aggs: Dict[str, pd.DataFrame] = {}
+    aggs = {}
+    df = train_df.copy()
+
     for group_cols in group_cols_list:
+        # force stable join key dtype
+        for c in group_cols:
+            df[c] = safe_str_series(df[c])
+
         key = "|".join(group_cols)
-        g = train_df.groupby(group_cols)[target_col].agg(["mean", "std"]).reset_index()
+        g = df.groupby(group_cols)[target_col].agg(["mean", "std"]).reset_index()
         g = g.rename(columns={"mean": f"{target_col}_{key}_mean", "std": f"{target_col}_{key}_std"})
         aggs[key] = g
+
     return aggs
 
 
-def add_agg_features(
-    df: pd.DataFrame,
-    agg_tables: Dict[str, pd.DataFrame],
-    group_cols_list: List[List[str]],
-    target_col: str = "TransactionAmt",
-) -> pd.DataFrame:
+
+def add_agg_features(df, agg_tables, group_cols_list, target_col="TransactionAmt"):
     out = df.copy()
+
     for group_cols in group_cols_list:
+        # force stable join key dtype (matches fit_agg_tables)
+        for c in group_cols:
+            out[c] = safe_str_series(out[c])
+
         key = "|".join(group_cols)
         table = agg_tables[key]
+
         out = out.merge(table, on=group_cols, how="left")
 
-        # safe fills (use global stats)
         mean_col = f"{target_col}_{key}_mean"
         std_col = f"{target_col}_{key}_std"
         out[mean_col] = out[mean_col].fillna(out[target_col].mean()).astype("float32")
         out[std_col] = out[std_col].fillna(out[target_col].std()).astype("float32")
+
     return out
 
 
