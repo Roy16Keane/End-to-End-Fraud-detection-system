@@ -9,10 +9,6 @@ data/
 models/
 
 # --- DVC must be tracked ---
-dvc.yaml
-dvc.lock
 !.dvc/
 !.dvc/config
 !.dvcignore
-!dvc.yaml
-!dvc.lock
