@@ -5,6 +5,14 @@ __pycache__/
 .DS_Store
 .ipynb_checkpoints/
 mlruns/
-dvc.lock
 data/
 models/
+
+# --- DVC must be tracked ---
+dvc.yaml
+dvc.lock
+!.dvc/
+!.dvc/config
+!.dvcignore
+!dvc.yaml
+!dvc.lock
