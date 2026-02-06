@@ -18,7 +18,7 @@ class PredictRequest(BaseModel):
 
 
 @app.on_event("startup")
-def startup():
+def load_predictor():
     predictor.load()
 
 
@@ -27,9 +27,12 @@ def health():
     return {"status": "ok"}
 
 
+
 @app.post("/predict")
 def predict(req: PredictRequest):
     try:
         return predictor.predict(req.transaction, threshold=req.threshold)
-    except Exception as e:
-        raise HTTPException(status_code=400, detail=str(e))
+    except ValueError as e:
+        raise HTTPException(status_code=422, detail=str(e))
+   
+

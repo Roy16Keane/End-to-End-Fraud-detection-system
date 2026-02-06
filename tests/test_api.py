@@ -1,45 +1,39 @@
-import json
-import pandas as pd
 from fastapi.testclient import TestClient
-
 from app.api.main import app
 
 
-client = TestClient(app)
-
-
 def test_health():
-    r = client.get("/health")
-    assert r.status_code == 200
-    assert r.json()["status"] == "ok"
+    with TestClient(app) as client:
+        r = client.get("/health")
+        assert r.status_code == 200
 
 
-def test_predict_smoke(monkeypatch, tmp_path):
-    """
-    This test assumes you have already trained once and created:
-      artifacts/featurizer.joblib
-      artifacts/train_meta.joblib
-      models/xgb_model.json
-
-    For CI later, we’ll generate these in a fixture.
-    """
-
+def test_predict_ok_contract():
     payload = {
         "transaction": {
-            "TransactionDT": 12345,
-            "TransactionAmt": 99.9,
-            "card1": "1234",
-            "addr1": "200",
-            "P_emaildomain": "gmail.com"
+            "TransactionDT": 100000,
+            "TransactionAmt": 49.99,
+            "ProductCD": "W",
+            "card1": 1234,
+            "addr1": 200,
+            "P_emaildomain": "gmail.com",
         },
-        "threshold": 0.5
+        "threshold": 0.5,
     }
 
-    r = client.post("/predict", data=json.dumps(payload))
-    # If you haven't trained/saved artifacts yet, this will 400.
-    assert r.status_code in (200, 400)
+    with TestClient(app) as client:
+        r = client.post("/predict", json=payload)
+        assert r.status_code == 200, r.text
 
-    if r.status_code == 200:
-        out = r.json()
-        assert 0.0 <= out["fraud_proba"] <= 1.0
-        assert out["fraud_label"] in (0, 1)
+        data = r.json()
+        assert set(["fraud_proba", "fraud_label", "threshold"]).issubset(data.keys())
+        assert 0.0 <= float(data["fraud_proba"]) <= 1.0
+        assert int(data["fraud_label"]) in (0, 1)
+        assert float(data["threshold"]) == 0.5
+
+
+def test_predict_missing_transaction_returns_422():
+    with TestClient(app) as client:
+        r = client.post("/predict", json={"threshold": 0.5})
+        assert r.status_code == 422
+
