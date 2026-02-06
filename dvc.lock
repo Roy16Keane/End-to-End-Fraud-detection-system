@@ -7,18 +7,15 @@ stages:
       hash: md5
       md5: 0cf85decd2f8acacef6384d1e60f99c5
       size: 24052510
-    - path: src/fraud/features/featurizer.py
+    - path: src/fraud/data/load_data.py
       hash: md5
-      md5: d7b736ed8c9b20b182c917a426eb1133
-      size: 4092
-    - path: src/fraud/features/preprocessing.py
+      md5: 723149ce0e788dce9c8dcef0d9047927
+      size: 815
+    - path: src/fraud/features/
       hash: md5
-      md5: 2d18dbca94df538afbcb8f1b52a08595
-      size: 7661
-    - path: src/fraud/inference/predictor.py
-      hash: md5
-      md5: 726175ec1e5df98b38b14febc4070030
-      size: 3860
+      md5: 9bbcff84b4a689224f917b83ffcfc34b.dir
+      size: 21756
+      nfiles: 6
     - path: src/fraud/training/run_train.py
       hash: md5
       md5: b05216fbddabfbf9e5c47c36b4a9258a
@@ -28,13 +25,15 @@ stages:
       md5: 23b7c8b76c35db2ec70a3039c329d7c7
       size: 2413
     outs:
-    - path: artifacts
+    - path: artifacts/featurizer.joblib
       hash: md5
-      md5: 5b5096bb8f126bf885dac15400e8c1b8.dir
-      size: 1422000
-      nfiles: 2
-    - path: models
+      md5: c9359a886d0bb3dbe9ca1b8803d1aa9d
+      size: 1418870
+    - path: artifacts/train_meta.joblib
       hash: md5
-      md5: 0472a1b9164d9dd41d5beabadf675406.dir
-      size: 3810268
-      nfiles: 2
+      md5: b48a48c71d42688948de53dedfa28f91
+      size: 3130
+    - path: models/xgb_model.joblib
+      hash: md5
+      md5: a93babc270fe346f7d8e0b5d2f3d6b8a
+      size: 3805106

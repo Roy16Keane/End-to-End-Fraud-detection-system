@@ -2,12 +2,12 @@ stages:
   train:
     cmd: python -m fraud.training.run_train
     deps:
-    - dataset/merged_data_pruned.parquet
-    - src/fraud/features/featurizer.py
-    - src/fraud/features/preprocessing.py
-    - src/fraud/inference/predictor.py
-    - src/fraud/training/run_train.py
-    - src/fraud/training/train.py
+      - src/fraud/training/train.py
+      - src/fraud/training/run_train.py
+      - src/fraud/features/
+      - src/fraud/data/load_data.py
+      - dataset/merged_data_pruned.parquet
     outs:
-    - artifacts
-    - models
+      - artifacts/featurizer.joblib
+      - artifacts/train_meta.joblib
+      - models/xgb_model.joblib
