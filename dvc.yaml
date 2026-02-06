@@ -1,0 +1,13 @@
+stages:
+  train:
+    cmd: python -m fraud.training.run_train
+    deps:
+    - dataset/merged_data_pruned.parquet
+    - src/fraud/features/featurizer.py
+    - src/fraud/features/preprocessing.py
+    - src/fraud/inference/predictor.py
+    - src/fraud/training/run_train.py
+    - src/fraud/training/train.py
+    outs:
+    - artifacts
+    - models

@@ -12,3 +12,5 @@ models/
 !.dvc/
 !.dvc/config
 !.dvcignore
+/artifacts
+/models

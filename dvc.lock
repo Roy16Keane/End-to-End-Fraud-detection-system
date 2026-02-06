@@ -1,0 +1,40 @@
+schema: '2.0'
+stages:
+  train:
+    cmd: python -m fraud.training.run_train
+    deps:
+    - path: dataset/merged_data_pruned.parquet
+      hash: md5
+      md5: 0cf85decd2f8acacef6384d1e60f99c5
+      size: 24052510
+    - path: src/fraud/features/featurizer.py
+      hash: md5
+      md5: d7b736ed8c9b20b182c917a426eb1133
+      size: 4092
+    - path: src/fraud/features/preprocessing.py
+      hash: md5
+      md5: 2d18dbca94df538afbcb8f1b52a08595
+      size: 7661
+    - path: src/fraud/inference/predictor.py
+      hash: md5
+      md5: 726175ec1e5df98b38b14febc4070030
+      size: 3860
+    - path: src/fraud/training/run_train.py
+      hash: md5
+      md5: b05216fbddabfbf9e5c47c36b4a9258a
+      size: 383
+    - path: src/fraud/training/train.py
+      hash: md5
+      md5: 23b7c8b76c35db2ec70a3039c329d7c7
+      size: 2413
+    outs:
+    - path: artifacts
+      hash: md5
+      md5: 5b5096bb8f126bf885dac15400e8c1b8.dir
+      size: 1422000
+      nfiles: 2
+    - path: models
+      hash: md5
+      md5: 0472a1b9164d9dd41d5beabadf675406.dir
+      size: 3810268
+      nfiles: 2
