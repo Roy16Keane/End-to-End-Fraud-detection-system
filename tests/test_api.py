@@ -1,3 +1,5 @@
+import os 
+os.environ['TEST_MODE'] = '1'
 from fastapi.testclient import TestClient
 from app.api.main import app
 

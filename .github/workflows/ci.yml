@@ -7,7 +7,6 @@ on:
     branches: [ main ]
 
 jobs:
-
   test:
     name: Run Tests
     runs-on: ubuntu-latest
@@ -25,15 +24,16 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-          
+
       - name: Install project (editable)
         run: pip install -e .
 
-
       - name: Run pytest
+        env:
+          TEST_MODE: "1"
+          ARTIFACTS_DIR: "artifacts"
         run: |
           pytest -v
-
 
   docker:
     name: Build Docker Images
