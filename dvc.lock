@@ -16,14 +16,21 @@ stages:
       md5: 9bbcff84b4a689224f917b83ffcfc34b.dir
       size: 21756
       nfiles: 6
-    - path: src/fraud/training/run_train.py
+    - path: src/fraud/inference
       hash: md5
-      md5: b05216fbddabfbf9e5c47c36b4a9258a
-      size: 383
-    - path: src/fraud/training/train.py
+      md5: c668c85ba16bd8add86a7621ea66e041.dir
+      size: 7584
+      nfiles: 2
+    - path: src/fraud/training/
       hash: md5
-      md5: 23b7c8b76c35db2ec70a3039c329d7c7
-      size: 2413
+      md5: 4f5cca7ae952bb579b2538d82a1bb3c3.dir
+      size: 22269
+      nfiles: 8
+    - path: src/fraud/utils/
+      hash: md5
+      md5: 2f37dbd9d551f0e9f2bc091293eafd69.dir
+      size: 883
+      nfiles: 2
     outs:
     - path: artifacts/featurizer.joblib
       hash: md5
@@ -31,9 +38,53 @@ stages:
       size: 1418870
     - path: artifacts/train_meta.joblib
       hash: md5
-      md5: b48a48c71d42688948de53dedfa28f91
-      size: 3130
+      md5: c98c238f15432300e7ae7b6da99a2b78
+      size: 3258
+    - path: models/meta.json
+      hash: md5
+      md5: 0b75d07e28c9d2a06fabd5f7f0eb274f
+      size: 5312
     - path: models/xgb_model.joblib
       hash: md5
       md5: a93babc270fe346f7d8e0b5d2f3d6b8a
       size: 3805106
+    - path: reports/feature_importance.json
+      hash: md5
+      md5: 1699562311e0811a79d084c35bbddb4b
+      size: 23927
+  evaluate:
+    cmd: python -m fraud.training.run_val
+    deps:
+    - path: dataset/merged_data_pruned.parquet
+      hash: md5
+      md5: 0cf85decd2f8acacef6384d1e60f99c5
+      size: 24052510
+    - path: src/fraud/data/load_data.py
+      hash: md5
+      md5: 723149ce0e788dce9c8dcef0d9047927
+      size: 815
+    - path: src/fraud/features/
+      hash: md5
+      md5: 9bbcff84b4a689224f917b83ffcfc34b.dir
+      size: 21756
+      nfiles: 6
+    - path: src/fraud/inference
+      hash: md5
+      md5: c668c85ba16bd8add86a7621ea66e041.dir
+      size: 7584
+      nfiles: 2
+    - path: src/fraud/training/
+      hash: md5
+      md5: 4f5cca7ae952bb579b2538d82a1bb3c3.dir
+      size: 22269
+      nfiles: 8
+    - path: src/fraud/utils/
+      hash: md5
+      md5: 2f37dbd9d551f0e9f2bc091293eafd69.dir
+      size: 883
+      nfiles: 2
+    outs:
+    - path: reports/cv_summary.json
+      hash: md5
+      md5: 5a624e9f3c8d2abb733acb30523fa316
+      size: 1247

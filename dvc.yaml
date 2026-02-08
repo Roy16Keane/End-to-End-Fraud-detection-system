@@ -1,13 +1,35 @@
+
 stages:
   train:
     cmd: python -m fraud.training.run_train
     deps:
-      - src/fraud/training/train.py
-      - src/fraud/training/run_train.py
+      - dataset/merged_data_pruned.parquet
+      - src/fraud/training/
       - src/fraud/features/
       - src/fraud/data/load_data.py
-      - dataset/merged_data_pruned.parquet
+      - src/fraud/utils/
+      - src/fraud/inference
+       
+
     outs:
       - artifacts/featurizer.joblib
       - artifacts/train_meta.joblib
       - models/xgb_model.joblib
+      - models/meta.json
+      - reports/feature_importance.json
+
+  evaluate:
+  
+    cmd:  python -m fraud.training.run_val
+
+    deps:
+      - dataset/merged_data_pruned.parquet
+      - src/fraud/training/
+      - src/fraud/features/
+      - src/fraud/data/load_data.py
+      - src/fraud/utils/
+      - src/fraud/inference
+
+    outs:
+      - reports/cv_summary.json
+

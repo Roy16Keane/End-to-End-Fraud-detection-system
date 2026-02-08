@@ -1,9 +1,24 @@
+# Core
 pandas
 numpy
 scikit-learn
 xgboost
-fastapi
-uvicorn
-pydantic
-pytest
 joblib
+pyarrow
+
+# API
+fastapi
+uvicorn[standard]
+pydantic
+python-multipart
+
+# UI
+streamlit
+requests
+
+# Experiment tracking
+mlflow
+
+# Testing
+pytest
+httpx

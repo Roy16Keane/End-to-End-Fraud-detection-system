@@ -1,0 +1,34 @@
+services:
+  api:
+    build:
+      context: .
+      dockerfile: dockerfile.api
+    container_name: fraud_api
+    ports:
+      - "8000:8000"
+    environment:
+      - ARTIFACTS_DIR=artifacts
+    # If your API needs the trained artifacts, ensure they exist in the image OR mount them:
+    volumes:
+      - ./artifacts:/app/artifacts
+      - ./models:/app/models
+      - ./reports:/app/reports
+      - ./dataset:/app/dataset
+
+  streamlit:
+    build:
+      context: .
+      dockerfile: dockerfile.streamlit
+    container_name: fraud_ui
+    environment:
+      # Compose DNS lets you call the api container by service name "api"
+      - API_URL=http://api:8000/predict
+    ports:
+      - "8501:8501"
+    depends_on:
+      - api
+    volumes:
+      - ./artifacts:/app/artifacts
+      - ./models:/app/models
+      - ./reports:/app/reports
+      - ./dataset:/app/dataset
