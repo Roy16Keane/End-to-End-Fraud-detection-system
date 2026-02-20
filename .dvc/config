@@ -1,4 +1,7 @@
 [core]
-    remote = localstore
+    remote = s3remote
 ['remote "localstore"']
     url = /home/roykeane/dvc-storage/fraud-mlops
+['remote "s3remote"']
+    url = s3://roykeane-fraud-dvc/dvcstore
+    region = eu-west-2
