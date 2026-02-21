@@ -14,3 +14,5 @@ models/
 !.dvcignore
 /artifacts
 /models
+!src/fraud/data/
+!src/fraud/data/**
