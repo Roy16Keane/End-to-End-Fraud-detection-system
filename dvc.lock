@@ -1,56 +1,52 @@
 schema: '2.0'
 stages:
   train:
-    cmd: python -m fraud.training.run_train
+    cmd: PYTHONPATH=src python -m fraud.training.run_train
     deps:
     - path: dataset/merged_data_pruned.parquet
       hash: md5
       md5: 0cf85decd2f8acacef6384d1e60f99c5
       size: 24052510
-    - path: src/fraud/data/load_data.py
-      hash: md5
-      md5: 723149ce0e788dce9c8dcef0d9047927
-      size: 815
     - path: src/fraud/features/
       hash: md5
-      md5: 9bbcff84b4a689224f917b83ffcfc34b.dir
-      size: 21756
+      md5: a28a1d70a1585d151a2d7dac3c53e15f.dir
+      size: 21615
       nfiles: 6
     - path: src/fraud/inference
       hash: md5
-      md5: c668c85ba16bd8add86a7621ea66e041.dir
-      size: 7584
-      nfiles: 2
+      md5: 9681246ffa40918a5142e0fc82c5e08c.dir
+      size: 3860
+      nfiles: 1
     - path: src/fraud/training/
       hash: md5
-      md5: 4f5cca7ae952bb579b2538d82a1bb3c3.dir
-      size: 22269
+      md5: 66dfebd3aaaecdfad6cb10a6dfada4eb.dir
+      size: 22081
       nfiles: 8
     - path: src/fraud/utils/
       hash: md5
-      md5: 2f37dbd9d551f0e9f2bc091293eafd69.dir
-      size: 883
+      md5: ff4fa58d8aca197d8d50896586b3c829.dir
+      size: 836
       nfiles: 2
     outs:
     - path: artifacts/featurizer.joblib
       hash: md5
-      md5: c9359a886d0bb3dbe9ca1b8803d1aa9d
+      md5: e5d7dd679be804e2e6c602b43debab1e
       size: 1418870
     - path: artifacts/train_meta.joblib
       hash: md5
-      md5: c98c238f15432300e7ae7b6da99a2b78
+      md5: 03be8636f98419021a5ab2684d7db7d7
       size: 3258
     - path: models/meta.json
       hash: md5
-      md5: 0b75d07e28c9d2a06fabd5f7f0eb274f
+      md5: 7d342b0a4794f72a47c77de8ab33163e
       size: 5312
     - path: models/xgb_model.joblib
       hash: md5
-      md5: a93babc270fe346f7d8e0b5d2f3d6b8a
-      size: 3805106
+      md5: 721fab780de721d979a59ae07799bee9
+      size: 3805007
     - path: reports/feature_importance.json
       hash: md5
-      md5: 1699562311e0811a79d084c35bbddb4b
+      md5: c3c678944f863f99ace5d7ca1c3a8d5a
       size: 23927
   evaluate:
     cmd: python -m fraud.training.run_val
@@ -59,32 +55,28 @@ stages:
       hash: md5
       md5: 0cf85decd2f8acacef6384d1e60f99c5
       size: 24052510
-    - path: src/fraud/data/load_data.py
-      hash: md5
-      md5: 723149ce0e788dce9c8dcef0d9047927
-      size: 815
     - path: src/fraud/features/
       hash: md5
-      md5: 9bbcff84b4a689224f917b83ffcfc34b.dir
-      size: 21756
+      md5: a28a1d70a1585d151a2d7dac3c53e15f.dir
+      size: 21615
       nfiles: 6
     - path: src/fraud/inference
       hash: md5
-      md5: c668c85ba16bd8add86a7621ea66e041.dir
-      size: 7584
-      nfiles: 2
+      md5: 9681246ffa40918a5142e0fc82c5e08c.dir
+      size: 3860
+      nfiles: 1
     - path: src/fraud/training/
       hash: md5
-      md5: 4f5cca7ae952bb579b2538d82a1bb3c3.dir
-      size: 22269
+      md5: 66dfebd3aaaecdfad6cb10a6dfada4eb.dir
+      size: 22081
       nfiles: 8
     - path: src/fraud/utils/
       hash: md5
-      md5: 2f37dbd9d551f0e9f2bc091293eafd69.dir
-      size: 883
+      md5: ff4fa58d8aca197d8d50896586b3c829.dir
+      size: 836
       nfiles: 2
     outs:
     - path: reports/cv_summary.json
       hash: md5
-      md5: 5a624e9f3c8d2abb733acb30523fa316
+      md5: 50ca9ab76b858558a08156027b270442
       size: 1247
