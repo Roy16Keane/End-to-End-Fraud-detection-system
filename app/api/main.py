@@ -11,6 +11,8 @@ from prometheus_fastapi_instrumentator import Instrumentator
 
 app = FastAPI(title="Fraud Detection API", version="0.1.0")
 
+Instrumentator().instrument(app).expose(app)
+
 ARTIFACTS_DIR = os.getenv("ARTIFACTS_DIR", "artifacts")
 TEST_MODE = os.getenv('TEST_MODE','0') == '1'
 predictor = FraudPredictor(artifacts_dir=ARTIFACTS_DIR)
@@ -26,7 +28,6 @@ def startup():
     if TEST_MODE:
         return
     predictor.load()
-    Instrumentator().instrument(app).expose(app)
 
 
 @app.get("/health")
