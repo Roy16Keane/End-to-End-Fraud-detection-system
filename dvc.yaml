@@ -1,7 +1,7 @@
 
 stages:
   train:
-    cmd: PYTHONPATH=src python -m fraud.training.run_train
+    cmd: python -m fraud.training.run_train
     deps:
       - dataset/merged_data_pruned.parquet
       - src/fraud/training/

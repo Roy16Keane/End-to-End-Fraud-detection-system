@@ -5,6 +5,9 @@ from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel, Field
 
 from fraud.inference.predictor import FraudPredictor
+from prometheus_fastapi_instrumentator import Instrumentator
+
+
 
 app = FastAPI(title="Fraud Detection API", version="0.1.0")
 
@@ -17,6 +20,10 @@ class PredictRequest(BaseModel):
     transaction: Dict[str, Any] = Field(...)
     threshold: float = Field(0.5, ge=0.0, le=1.0)
 
+@app.on_event("startup")
+def startup():
+    predictor.load()
+    Instrumentator().instrument(app).expose(app)
 
 @app.on_event("startup")
 def load_predictor():
