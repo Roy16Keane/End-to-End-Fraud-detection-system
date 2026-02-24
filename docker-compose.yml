@@ -54,6 +54,7 @@ services:
     volumes:
       - grafana_data:/var/lib/grafana
     environment:
+       - GF_SERVER_DOMAIN=roykeanesyangu.com
        - GF_SERVER_ROOT_URL=https://roykeanesyangu.com/grafana/
        - GF_SERVER_SERVE_FROM_SUB_PATH=true
 
