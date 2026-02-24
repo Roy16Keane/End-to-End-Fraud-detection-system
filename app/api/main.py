@@ -22,15 +22,11 @@ class PredictRequest(BaseModel):
 
 @app.on_event("startup")
 def startup():
-    predictor.load()
-    Instrumentator().instrument(app).expose(app)
-
-@app.on_event("startup")
-def load_predictor():
      # In CI/unit tests we don't want to load real artifacts
     if TEST_MODE:
         return
     predictor.load()
+    Instrumentator().instrument(app).expose(app)
 
 
 @app.get("/health")
