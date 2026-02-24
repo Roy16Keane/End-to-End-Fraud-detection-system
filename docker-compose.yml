@@ -53,6 +53,10 @@ services:
       - "3000:3000"
     volumes:
       - grafana_data:/var/lib/grafana
+    environment:
+       - GF_SERVER_ROOT_URL=https://roykeanesyangu.com/grafana/
+       - GF_SERVER_SERVE_FROM_SUB_PATH=true
+
     depends_on:
       - prometheus
 
