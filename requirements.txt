@@ -23,3 +23,5 @@ mlflow
 # Testing
 pytest
 httpx
+
+prometheus-fastapi-instrumentator
