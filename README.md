@@ -5,6 +5,19 @@ Production-ready machine learning system for real-time credit card fraud detecti
 
 ![CI](https://github.com/Roy16Keane/End-to-End-Fraud-detection-system/actions/workflows/ci.yml/badge.svg)
 
+## Live Production System
+
+This project is deployed as a production service on AWS.
+
+| Service | URL |
+|-------|------|
+| Streamlit UI | https://roykeanesyangu.com |
+| FastAPI Docs | https://roykeanesyangu.com/api/docs |
+| Prometheus Monitoring | https://roykeanesyangu.com/prometheus |
+| Grafana Dashboard | https://roykeanesyangu.com/grafana |
+
+The system is hosted on an AWS EC2 instance with Nginx reverse proxy and HTTPS.
+
 ## Tech Stack
 
 ![Python](https://img.shields.io/badge/Python-3.10-blue?logo=python)
@@ -21,6 +34,12 @@ Production-ready machine learning system for real-time credit card fraud detecti
 ![Architecture](https://img.shields.io/badge/Architecture-REST%20Microservice-lightgrey)
 ![MLOps](https://img.shields.io/badge/MLOps-End--to--End-green)
 ![Status](https://img.shields.io/badge/Status-Production%20Ready-brightgreen)
+![AWS](https://img.shields.io/badge/Cloud-AWS-orange?logo=amazonaws)
+![Prometheus](https://img.shields.io/badge/Monitoring-Prometheus-E6522C?logo=prometheus)
+![Grafana](https://img.shields.io/badge/Dashboard-Grafana-F46800?logo=grafana)
+
+
+## Production Deployment Architecture
 
 
 
@@ -44,11 +63,6 @@ This project builds a real-time fraud detection system that:
 ## System Architecture
 
 ![Architecture](docs/architecture.png)
-
-## Project Structure
-.
-
-
 
 ## Model Performance
 
@@ -74,15 +88,24 @@ Forward-time validation (monthly split):
 ## Run Locally
 
 ### Clone repository
-from root repo docker compose --build 
+```
+git clone https://github.com/Roy16Keane/End-to-End-Fraud-detection-system.git
+cd End-to-End-Fraud-detection-system
+```
+Run services
+```
+docker compose --build
+```
 
 Access:
 - API: http://localhost:8000/docs  
 - Streamlit: http://localhost:8501
+- Prometheus: http://localhost:9090
+- Grafana: http://localhost:3000
 ## API Example
 
 POST /predict
-
+```
 Request:
 {
   "transaction": {
@@ -96,18 +119,22 @@ Request:
   "threshold": 0.5
 }
 
+```
+output 
+```
 {
   "fraud_proba": 0.05,
   "fraud_label": 0,
   "threshold": 0.5
 }
-
+```
 ## Future Improvements
+- Kubernetes deployment (EKS)
+- CI/CD automated cloud deployment
+- Alerting with Prometheus Alertmanager
+- Feature store integration
+- Online model retraining pipeline
 
-- Deploy API to AWS / Render
-- Add monitoring (Evidently / Prometheus)
-- Implement model versioning & rollback
-- Add batch inference pipeline
 ## Author
 
 Roy Keane Syangu  
