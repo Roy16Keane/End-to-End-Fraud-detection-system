@@ -164,6 +164,7 @@ def evaluate_and_log(
         mlflow.log_param("days_per_month", 30)
         mlflow.log_param("git_commit", _git_commit())
         mlflow.log_param("data_file", "dataset/merged_data_pruned.parquet")
+        mlflow.log_param('max_folds',4)
 
         summary = forward_month_cv(
             df_raw=df_all,
@@ -172,6 +173,7 @@ def evaluate_and_log(
             params=params,
             min_train_months=2,
             days_per_month=30,
+            max_folds = 4,
         )
 
         # Log summary metrics

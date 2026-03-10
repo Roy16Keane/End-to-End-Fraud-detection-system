@@ -58,32 +58,32 @@ def train_final_model(
     with mlflow.start_run(run_name="xgb_final_train") as run:
         run_id = run.info.run_id
 
-        # ---------------------------
+        
         # 0) Log run metadata
-        # ---------------------------
+        
         mlflow.log_params(params)
         mlflow.log_param("target_col", target_col)
         mlflow.log_param("git_commit", _git_commit())
         mlflow.log_param("data_file", "dataset/merged_data_pruned.parquet")
 
-        # ---------------------------
+        
         # 1) Fit featurizer ON DATA
-        # ---------------------------
+        
         featurizer = FraudFeaturizer().fit(
             df_train.drop(columns=[target_col], errors="ignore")
         )
 
-        # ---------------------------
+        
         # 2) Transform full training data
-        # ---------------------------
+        
         X = featurizer.transform(
             df_train.drop(columns=[target_col], errors="ignore")
         )
         y = df_train[target_col].astype(int).values
 
-        # ---------------------------
+        
         # 3) Numeric cleanup + drop constants
-        # ---------------------------
+        
         X = make_numeric_matrix(X, drop_cols=["TransactionID", "UID"])
         X, dropped_cols = drop_allnan_and_constant_cols(X)
         feature_cols = X.columns.tolist()
@@ -91,18 +91,18 @@ def train_final_model(
         mlflow.log_metric("n_features", float(len(feature_cols)))
         mlflow.log_metric("n_dropped_cols", float(len(dropped_cols)))
 
-        # ---------------------------
+        
         # 4) Train final model
-        # ---------------------------
+        
         clf = xgb.XGBClassifier(**params)
         clf.fit(X, y, verbose=False)
 
         # Minimal sanity metric (full train AUC)
         train_auc = float(roc_auc_score(y, clf.predict_proba(X)[:, 1]))
         mlflow.log_metric("train_auc", train_auc)
-        # ---------------------------
+        
         # 4b) Feature importance report
-        # ---------------------------
+        
         Path("reports").mkdir(parents=True, exist_ok=True)
 
         importances = clf.feature_importances_
@@ -116,9 +116,9 @@ def train_final_model(
         fi_df.to_json(fi_path, orient="records", indent=2)
 
 
-        # ---------------------------
+        
         # 5) Persist artifacts (DVC will version these)
-        # ---------------------------
+        
         save_joblib(featurizer, Path(artifacts_dir) / "featurizer.joblib")
 
         train_meta = {
@@ -127,7 +127,7 @@ def train_final_model(
             "params": params,
             "n_features": len(feature_cols),
             "train_auc": train_auc,
-            "mlflow_run_id": run_id,         # 🔑 artifact ↔ MLflow linkage
+            "mlflow_run_id": run_id,         # artifact ↔ MLflow linkage
             "git_commit": _git_commit(),
         }
         save_joblib(train_meta, Path(artifacts_dir) / "train_meta.joblib")

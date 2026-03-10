@@ -8,7 +8,7 @@ services:
       - "8000:8000"
     environment:
       - ARTIFACTS_DIR=artifacts
-    # If your API needs the trained artifacts, ensure they exist in the image OR mount them:
+    # If API needs the trained artifacts ensure they exist in the image OR mount them:
     volumes:
       - ./artifacts:/app/artifacts
       - ./models:/app/models
