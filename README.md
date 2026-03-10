@@ -101,16 +101,26 @@ Forward-time validation (monthly split):
 
 ## MLOps Capabilities
 
-- **Data Versioning**: DVC tracks datasets and pipeline outputs
-- **Experiment Tracking**: MLflow logs parameters, metrics, and artifacts
-- **Reproducible Pipeline**: `dvc repro` rebuilds the entire workflow
-- **API Serving**: FastAPI for real-time inference
-- **UI Layer**: Streamlit dashboard for user interaction
-- **Containerization**: Docker for API and UI
-- **Orchestration**: Docker Compose runs services together
-- **CI/CD**:
-  - Pytest runs on every push
-  - Docker images built automatically via GitHub Actions
+
+- **Data & Model Versioning**: DVC tracks datasets, model artifacts, and pipeline outputs with remote storage on AWS S3 to ensure experiment reproducibility and dataset traceability.
+
+- **Experiment Tracking**: MLflow logs model parameters, training metrics, and artifacts, enabling structured experiment comparison and reproducible model development.
+
+- **Reproducible ML Pipelines**: The entire training workflow is defined using DVC pipelines and can be rebuilt using dvc repro.
+
+- **Production Model Serving**: FastAPI provides a REST API for real-time fraud prediction with structured request validation and health endpoints.
+
+- **Interactive Application Layer**: Streamlit dashboard enables users to simulate transactions and view model predictions through an accessible web interface.
+
+- **Containerised Architecture**: Docker containers package the API, UI, and supporting services for consistent development and deployment environments.
+
+- **Service Orchestration**: Docker Compose orchestrates multi-service deployment including FastAPI, Streamlit, Prometheus, and Grafana.
+
+- **Cloud Deployment**: Services are deployed on AWS EC2 and exposed through Nginx reverse proxy with HTTPS using a custom domain.
+
+- **Monitoring & Observability**: Prometheus collects API metrics (request rate, latency, error rate) while Grafana provides visual dashboards for system monitoring.
+
+- **Continuous Integration / CI/CD**: GitHub Actions automatically runs unit tests and builds Docker images on every push to ensure code reliability and maintain build consistency.
 ## Run Locally
 
 ### Clone repository
