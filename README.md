@@ -5,7 +5,7 @@ Production-ready machine learning system for real-time credit card fraud detecti
 
 ![CI](https://github.com/Roy16Keane/End-to-End-Fraud-detection-system/actions/workflows/ci.yml/badge.svg)
 
-## Streamlit UI demo and Grafana dashboard
+## Streamlit UI demo 
 
 <p align="center">
   <img src="docs/ui_demo.png" width="800">
@@ -57,20 +57,33 @@ The system is hosted on an AWS EC2 instance with Nginx reverse proxy and HTTPS.
 
 
 ## Key Features
-- Real-time fraud prediction API
-- Interactive Streamlit dashboard
-- Reproducible training with DVC
-- Experiment tracking with MLflow
-- Automated testing & Docker builds via CI/CD
+
+- Real-time Fraud Prediction API — FastAPI service serving fraud probability predictions for incoming transactions.
+- Interactive Streamlit Dashboard — Web interface allowing users to simulate transactions and view fraud risk predictions instantly.
+- Production Deployment on AWS — Containerised services deployed on AWS EC2 with Nginx reverse proxy and HTTPS using a custom domain.
+- Containerised Microservice Architecture — API, UI, monitoring, and supporting services orchestrated using Docker Compose.
+- Model & Data Versioning — DVC pipeline with remote storage on AWS S3 ensuring reproducible experiments and dataset traceability.
+- Experiment Tracking — MLflow used to log model parameters, evaluation metrics, and artifacts.
+- Production Monitoring — Prometheus collects API metrics while Grafana visualises system performance (latency, throughput, errors).
+- Automated CI/CD Pipeline — GitHub Actions runs unit tests and builds Docker images automatically on every push.
+- Reproducible ML Pipeline — Entire training workflow reproducible using ```dvc repro```.
 
 ## Business Problem
 
-Financial fraud causes billions in losses annually.  
-This project builds a real-time fraud detection system that:
+Financial fraud causes billions of dollars in losses every year. Detecting fraudulent transactions quickly and accurately is critical for financial institutions.
 
-- Predicts probability of fraud for each transaction
-- Supports real-time decision making
-- Provides a scalable and reproducible ML pipeline
+This project implements a real-time fraud detection system that:
+
+- Estimates the probability that a transaction is fraudulent
+- Enables rapid decision-making for transaction approval or investigation
+- Demonstrates a scalable and reproducible machine learning pipeline from training to deployment
+- Exposes the model through a production-ready API and interactive dashboard
+
+## Dataset 
+The dataset used in for modelling: Kaggle IEEE-CIS Fraud Detection data 
+```
+https://www.kaggle.com/competitions/ieee-fraud-detection/data
+```
 
 
 ## System Architecture
