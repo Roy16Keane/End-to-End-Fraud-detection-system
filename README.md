@@ -5,6 +5,19 @@ Production-ready machine learning system for real-time credit card fraud detecti
 
 ![CI](https://github.com/Roy16Keane/End-to-End-Fraud-detection-system/actions/workflows/ci.yml/badge.svg)
 
+## Streamlit UI demo and Grafana dashboard
+
+<p align="center">
+  <img src="docs/ui_demo.png" width="800">
+</p>
+
+## Grafana dashboard
+
+<p align="center">
+  <img src="docs/dashboard1.png" width="800">
+</p>
+
+
 ## Live Production System
 
 This project is deployed as a production service on AWS.
