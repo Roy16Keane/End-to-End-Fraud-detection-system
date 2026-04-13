@@ -174,5 +174,8 @@ output
 ## Author
 
 Roy Keane Syangu  
-MSc Robotics & AI | Machine Learning & MLOps Engineer  
+MSc Robotics & AI | Machine Learning & MLOps Engineer 
+ 
+## License
+This project is licensed under the MIT License.
 
