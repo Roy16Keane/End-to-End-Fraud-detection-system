@@ -9,7 +9,8 @@ scrape_configs:
 
   # Optional: scrape Prometheus itself
   - job_name: "prometheus"
+    metrics_path: /prometheus/metrics
     static_configs:
-      - targets: ["prometheus:9090"]
+      - targets: ["localhost:9090"]
 
 
