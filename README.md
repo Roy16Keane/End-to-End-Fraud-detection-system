@@ -187,9 +187,6 @@ https://www.kaggle.com/competitions/ieee-fraud-detection/data
 ```
 
 
-## System Architecture
-
-![Architecture](docs/architecture.png)
 
 ## Model Performance
 
