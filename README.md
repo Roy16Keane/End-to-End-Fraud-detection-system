@@ -8,13 +8,17 @@ Production-ready machine learning system for real-time credit card fraud detecti
 ## Streamlit UI demo 
 
 <p align="center">
-  <img src="docs/ui_demo.png" width="800">
+  <img src="docs/demopic1.png" width="800">
+</p>
+
+<p align="center">
+  <img src="docs/demopic2.png" width="800">
 </p>
 
 ## Grafana dashboard
 
 <p align="center">
-  <img src="docs/dashboard1.png" width="800">
+  <img src="docs/grafanaboard1.png" width="800">
 </p>
 
 
@@ -52,8 +56,106 @@ The system is hosted on an AWS EC2 instance with Nginx reverse proxy and HTTPS.
 ![Grafana](https://img.shields.io/badge/Dashboard-Grafana-F46800?logo=grafana)
 
 
-## Production Deployment Architecture
+## Architecture
 
+### Machine Learning Training  Pipeline 
+
+```mermaid
+flowchart LR
+
+    subgraph DATA[Data Layer]
+        RAW[IEEE-CIS Fraud Dataset]
+        DVC[DVC]
+        S3[AWS S3 Remote]
+    end
+
+    subgraph PREP[Data Preparation]
+        CLEAN[Data Cleaning]
+        FE[Feature Engineering]
+        SPLIT[Time-Based Train Validation Split]
+    end
+
+    subgraph MODEL[Model Development]
+        TRAIN[XGBoost Training]
+        EVAL[Model Evaluation]
+        MLFLOW[MLflow Tracking]
+    end
+
+    subgraph ARTIFACTS[Model Artifacts]
+        MODELFILE[Trained Model]
+        FEATURIZER[Fraud Featurizer]
+        METRICS[Performance Metrics]
+    end
+
+    RAW --> CLEAN
+    RAW --> DVC
+    DVC --> S3
+
+    CLEAN --> FE
+    FE --> SPLIT
+    SPLIT --> TRAIN
+
+    TRAIN --> EVAL
+
+    TRAIN --> MLFLOW
+    EVAL --> MLFLOW
+
+    EVAL --> MODELFILE
+    EVAL --> FEATURIZER
+    EVAL --> METRICS
+```
+
+### Production Deployment Architecture
+
+```mermaid
+flowchart TD
+
+    USER[User]
+
+    subgraph FRONTEND[Frontend Layer]
+        STREAMLIT[Streamlit UI]
+    end
+
+    subgraph API[Backend Layer]
+        FASTAPI[FastAPI API]
+        PREDICT[Prediction Endpoint]
+    end
+
+    subgraph MODEL[Inference Layer]
+        MODELFILE[XGBoost Model]
+        FEATURIZER[Fraud Featurizer]
+    end
+
+    subgraph MONITORING[Monitoring]
+        PROM[Prometheus]
+        GRAFANA[Grafana]
+    end
+
+    subgraph INFRA[Deployment Infrastructure]
+        DOCKER[Docker]
+        COMPOSE[Docker Compose]
+        EC2[AWS EC2]
+        NGINX[Nginx Reverse Proxy]
+    end
+
+    USER --> STREAMLIT
+
+    STREAMLIT --> FASTAPI
+    FASTAPI --> PREDICT
+
+    PREDICT --> FEATURIZER
+    FEATURIZER --> MODELFILE
+
+    FASTAPI --> PROM
+    PROM --> GRAFANA
+
+    FASTAPI --> DOCKER
+    STREAMLIT --> DOCKER
+
+    DOCKER --> COMPOSE
+    COMPOSE --> EC2
+    EC2 --> NGINX
+```
 
 
 ## Key Features
