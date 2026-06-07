@@ -63,42 +63,41 @@ The system is hosted on an AWS EC2 instance with Nginx reverse proxy and HTTPS.
 ```mermaid
 flowchart LR
 
-    subgraph DATA[Data Layer]
+    subgraph DATA_LAYER[Data Layer]
         RAW[IEEE-CIS Fraud Dataset]
-        DVC[DVC]
-        S3[AWS S3 Remote]
+        DVC_NODE[DVC Data Versioning]
+        S3_NODE[AWS S3 Remote Storage]
     end
 
-    subgraph PREP[Data Preparation]
+    subgraph PREP_LAYER[Data Preparation]
         CLEAN[Data Cleaning]
         FE[Feature Engineering]
         SPLIT[Time-Based Train Validation Split]
     end
 
-    subgraph MODEL[Model Development]
+    subgraph MODEL_LAYER[Model Development]
         TRAIN[XGBoost Training]
         EVAL[Model Evaluation]
-        MLFLOW[MLflow Tracking]
+        MLFLOW_NODE[MLflow Tracking]
     end
 
-    subgraph ARTIFACTS[Model Artifacts]
+    subgraph ARTIFACT_LAYER[Model Artifacts]
         MODELFILE[Trained Model]
         FEATURIZER[Fraud Featurizer]
         METRICS[Performance Metrics]
     end
 
     RAW --> CLEAN
-    RAW --> DVC
-    DVC --> S3
+    RAW --> DVC_NODE
+    DVC_NODE --> S3_NODE
 
     CLEAN --> FE
     FE --> SPLIT
     SPLIT --> TRAIN
-
     TRAIN --> EVAL
 
-    TRAIN --> MLFLOW
-    EVAL --> MLFLOW
+    TRAIN --> MLFLOW_NODE
+    EVAL --> MLFLOW_NODE
 
     EVAL --> MODELFILE
     EVAL --> FEATURIZER
