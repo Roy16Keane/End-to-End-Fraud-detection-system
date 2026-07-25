@@ -25,3 +25,4 @@ pytest
 httpx
 
 prometheus-fastapi-instrumentator
+plotly
