@@ -4,7 +4,7 @@ Production-ready machine learning system for real-time fraud risk scoring, expla
 
 ![CI](https://github.com/Roy16Keane/End-to-End-Fraud-detection-system/actions/workflows/ci.yml/badge.svg)
 
----
+
 
 ## Overview
 
@@ -25,16 +25,16 @@ The system goes beyond returning a binary fraud prediction. It provides:
 
 The goal is to demonstrate how a machine learning model can be taken from experimentation through deployment, monitoring, explainability, and stakeholder-facing analysis.
 
----
 
-# Application Demo
 
-## Fraud Risk Analysis Interface
+## Application Demo
+
+### Fraud Risk Analysis Interface
 
 The Streamlit application allows users to enter transaction information, configure the classification threshold, and analyse the model's fraud-risk assessment.
 
 <p align="center">
-  <img src="docs/demopic1.png" width="900">
+  <img src="docs/1.png" width="900">
 </p>
 
 The interface provides:
@@ -45,14 +45,18 @@ The interface provides:
 - Configurable decision threshold
 - Adjustable number of explanation factors
 
----
 
-## Fraud Analyst Summary
+
+### Fraud Analyst Summary
 
 Rather than exposing only raw model outputs, the application converts the prediction into an analyst-friendly assessment.
 
 <p align="center">
-  <img src="docs/analyst_summary.png" width="900">
+  <img src="docs/2.png" width="900">
+</p>
+
+<p align="center">
+  <img src="docs/3.png" width="900">
 </p>
 
 The analyst summary includes:
@@ -65,14 +69,14 @@ The analyst summary includes:
 
 The suggested action is intended to support analyst judgement rather than replace fraud policies, business rules, or manual investigation.
 
----
 
-## Explainable AI — Local TreeSHAP
+
+### Explainable AI — Local TreeSHAP
 
 Each prediction can be explained using XGBoost's native TreeSHAP contribution calculation.
 
 <p align="center">
-  <img src="docs/shap_waterfall.png" width="900">
+  <img src="docs/4.png" width="900">
 </p>
 
 The waterfall visualisation shows how individual model signals move the transaction away from the model baseline.
@@ -90,11 +94,11 @@ The API also exposes separate:
 - Missing-value status
 
 <p align="center">
-  <img src="docs/risk_factors.png" width="900">
+  <img src="docs/5" width="900">
 </p>
 
 <p align="center">
-  <img src="docs/protective_factors.png" width="900">
+  <img src="docs/6.png" width="900">
 </p>
 
 Because many IEEE-CIS variables are anonymised, the interface uses conservative descriptions rather than inventing business meanings for hidden features.
@@ -110,16 +114,16 @@ Is presented as:
 Anonymised transaction count signal 14
 ```
 
----
-# Production Monitoring 
+
+## Production Monitoring 
 
 Prometheus collects application and model-serving metrics, while Grafana provides operational and business-level monitoring.
 
-## Usage Overview
+### Usage Overview and Prediction Outcomes
 
 
 <p align="center">
-  <img src="docs/demopic1.png" width="900">
+  <img src="docs/7.png" width="900">
 </p>
 
 The dashboard tracks:
@@ -128,24 +132,14 @@ The dashboard tracks:
 - Predictions during the last 24 hours
 - Timestamp of the latest prediction
 - Prediction errors
+- Fraud and normal predictions can be monitored over time to understand model activity and output distribution.
 
----
 
-## Prediction Outcomes
-
-<p align="center">
-  <img src="docs/grafana_outcomes.png" width="900">
-</p>
-
-Fraud and normal predictions can be monitored over time to understand model activity and output distribution.
-
----
-
-## Model Activity and API Performance
+### Model Activity and API Performance
 
 
 <p align="center">
-  <img src="docs/grafana_performance.png" width="900">
+  <img src="docs/8.png" width="900">
 </p>
 
 Operational metrics include:
@@ -162,9 +156,9 @@ Operational metrics include:
 
 This provides visibility into both machine learning behaviour and production service health.
 
----
 
-# Live Production System
+
+## Live Production System
 
 This project is deployed as a production service on AWS.
 
@@ -177,9 +171,9 @@ This project is deployed as a production service on AWS.
 
 The system is hosted on an AWS EC2 instance with Nginx reverse proxy and HTTPS.
 
----
 
-# Tech Stack
+
+## Tech Stack
 
 ![Python](https://img.shields.io/badge/Python-3.10-blue?logo=python)
 ![FastAPI](https://img.shields.io/badge/FastAPI-API-009688?logo=fastapi)
@@ -200,11 +194,11 @@ The system is hosted on an AWS EC2 instance with Nginx reverse proxy and HTTPS.
 ![Grafana](https://img.shields.io/badge/Dashboard-Grafana-F46800?logo=grafana)
 
 
----
 
-# Architecture
 
-## Machine Learning Training  Pipeline 
+## Architecture
+
+### Machine Learning Training  Pipeline 
 
 ```mermaid
 flowchart LR
@@ -249,57 +243,7 @@ flowchart LR
     EVAL --> FEATURIZER
     EVAL --> METRICS
 ```
-## Production Deployment Architecture
-
-```mermaid
-flowchart TD
-
-    USER[User]
-
-    subgraph FRONTEND[Frontend Layer]
-        STREAMLIT[Streamlit UI]
-    end
-
-    subgraph API[Backend Layer]
-        FASTAPI[FastAPI API]
-        PREDICT[Prediction Endpoint]
-    end
-
-    subgraph MODEL[Inference Layer]
-        MODELFILE[XGBoost Model]
-        FEATURIZER[Fraud Featurizer]
-    end
-
-    subgraph MONITORING[Monitoring]
-        PROM[Prometheus]
-        GRAFANA[Grafana]
-    end
-
-    subgraph INFRA[Deployment Infrastructure]
-        DOCKER[Docker]
-        COMPOSE[Docker Compose]
-        EC2[AWS EC2]
-        NGINX[Nginx Reverse Proxy]
-    end
-
-    USER --> STREAMLIT
-
-    STREAMLIT --> FASTAPI
-    FASTAPI --> PREDICT
-
-    PREDICT --> FEATURIZER
-    FEATURIZER --> MODELFILE
-
-    FASTAPI --> PROM
-    PROM --> GRAFANA
-
-    FASTAPI --> DOCKER
-    STREAMLIT --> DOCKER
-
-    DOCKER --> COMPOSE
-    COMPOSE --> EC2
-    EC2 --> NGINX
-```
+### Production Deployment Architecture
 
 ```mermaid
 flowchart TD
@@ -353,8 +297,8 @@ flowchart TD
     COMPOSE --> EC2
     EC2 --> NGINX
 ```
----
-# Key Features
+
+## Key Features
 
 - Real-time Fraud Risk Scoring — FastAPI endpoint returns fraud probability, model classification, risk band, and configurable threshold results.
 
@@ -382,9 +326,9 @@ flowchart TD
 
 - Reproducible ML Pipeline — Training workflow can be reproduced using ```dvc repro```.
 
----
 
-# Business Problem 
+
+## Business Problem 
 
 Financial fraud creates substantial financial and operational losses.
 
@@ -404,9 +348,9 @@ This project addresses that gap by combining fraud prediction with explainabilit
 
 The system is designed as a decision-support tool rather than an autonomous fraud decision-maker.
 
----
 
-# Dataset 
+
+## Dataset 
 
 The model is trained using the Kaggle IEEE-CIS Fraud Detection dataset:
 
@@ -415,9 +359,10 @@ https://www.kaggle.com/competitions/ieee-fraud-detection/data
 ```
 Many fields in the dataset are intentionally anonymised. The application therefore avoids assigning unsupported real-world meanings to hidden variables.
 
----
 
-# Model Performance 
+
+## Model Performance 
+
 
 Forward-time validation using monthly splits:
 
@@ -429,9 +374,9 @@ Forward-time validation using monthly splits:
 | Maximum fold AUC | 0.947|
 
 A time-aware validation strategy was used to better approximate how the model would perform on future transactions.
----
 
-# Explainability
+
+## Explainability
 
 For each transaction, the prediction API can return a local explanation.
 
@@ -458,9 +403,9 @@ TreeSHAP contributions are returned in the model's raw score space.
 
 The Streamlit application translates those contributions into a more accessible visual and analyst-facing explanation.
 
----
 
-# MLOps Capabilities
+
+## MLOps Capabilities
 
 
 - **Data & Model Versioning**: DVC tracks datasets, model artifacts, and pipeline outputs with AWS S3 remote storage.
@@ -487,18 +432,18 @@ The Streamlit application translates those contributions into a more accessible 
 
 - **Continuous Integration / CI/CD**: GitHub Actions validates code and Docker builds on every push.
 
----
 
-# Run Locally
 
-## Clone repository
+## Run Locally
+
+### Clone repository
 ```
 git clone https://github.com/Roy16Keane/End-to-End-Fraud-detection-system.git
 cd End-to-End-Fraud-detection-system
 ```
 Run services
 ```
-docker compose --build
+docker compose up --build
 ```
 
 Access:
@@ -507,7 +452,7 @@ Access:
 - Prometheus: http://localhost:9090
 - Grafana: http://localhost:3000
 
-## API Example
+### API Example
 
 POST /predict
 ```
@@ -549,9 +494,9 @@ Response
   }
 }
 ```
----
 
-# Limitations
+
+## Limitations
 
 - The IEEE-CIS dataset contains many anonymised variables, which limits direct business interpretation of some model features.
 - SHAP explanations describe model behaviour and association; they do not establish causal relationships.
@@ -560,7 +505,7 @@ Response
 - The project does not currently implement automated model retraining or production drift detection.
 
 
-# Future Improvements
+## Future Improvements
 - Automated cloud deployment through CI/CD
 - Prometheus Alertmanager integration
 - Model and feature drift monitoring
@@ -569,12 +514,12 @@ Response
 - Kubernetes / EKS deployment
 
 
-## Author
+### Author
 
 Roy Keane Syangu  
 MSc Robotics & AI | Machine Learning & MLOps Engineer 
  
-## License
+### License
 This project is licensed under the MIT License.
 
 
