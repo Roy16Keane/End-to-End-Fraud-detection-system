@@ -52,11 +52,11 @@ The interface provides:
 Rather than exposing only raw model outputs, the application converts the prediction into an analyst-friendly assessment.
 
 <p align="center">
-  <img src="docs/2.png" width="900">
+  <img src="docs/22.png" width="900">
 </p>
 
 <p align="center">
-  <img src="docs/3.png" width="900">
+  <img src="docs/33.png" width="900">
 </p>
 
 The analyst summary includes:
@@ -94,7 +94,7 @@ The API also exposes separate:
 - Missing-value status
 
 <p align="center">
-  <img src="docs/5" width="900">
+  <img src="docs/5.png" width="900">
 </p>
 
 <p align="center">
@@ -123,7 +123,7 @@ Prometheus collects application and model-serving metrics, while Grafana provide
 
 
 <p align="center">
-  <img src="docs/7.png" width="900">
+  <img src="docs/77.png" width="900">
 </p>
 
 The dashboard tracks:
@@ -139,7 +139,7 @@ The dashboard tracks:
 
 
 <p align="center">
-  <img src="docs/8.png" width="900">
+  <img src="docs/88.png" width="900">
 </p>
 
 Operational metrics include:
